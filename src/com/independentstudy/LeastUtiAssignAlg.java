@@ -72,7 +72,9 @@ public class LeastUtiAssignAlg {
 				temptask.priProcessor = tempIndex;
 				processorList.get(tempIndex).taskList.add(temptask);
 				processorList.get(tempIndex).proUtili += temptask.taskUtili;
-				tempmess.append("primary task "+ i + " is assigned to prcessor " + tempIndex + " with " + temptask.taskUtili + " and total uti of processor " + tempIndex + " is " + processorList.get(tempIndex).proUtili);
+				tempmess.append("primary task "+ i + " is assigned to prcessor " + tempIndex + " with " 
+				+ temptask.taskUtili + " and total uti of processor " + tempIndex + " is " + 
+				processorList.get(tempIndex).proUtili);
 				assignRecorder.add(tempmess.toString());
 			}
 			
@@ -87,8 +89,9 @@ public class LeastUtiAssignAlg {
 			
 			StringBuilder tempmess = new StringBuilder();
 			TempSingleTask tempPri = primaryTaskset[i];
-			TempSingleTask temptask = new TempSingleTask(tempPri.phase, tempPri.period, tempPri.relaDeadline, tempPri.taskIndex,
-					tempPri.pWorstCet,tempPri.pwcetMean,tempPri.pwcetStd,tempPri.gWorstCet,tempPri.gwcetMean, tempPri.gwcetStd,tempPri.primary);
+			TempSingleTask temptask = new TempSingleTask(tempPri.phase, tempPri.period, tempPri.relaDeadline, 
+			tempPri.taskIndex,tempPri.pWorstCet,tempPri.pwcetMean,tempPri.pwcetStd,tempPri.gWorstCet,
+			tempPri.gwcetMean, tempPri.gwcetStd,tempPri.primary);
 			temptask.primary = false;
 			temptask.priProcessor = tempPri.priProcessor;
 			temptask.taskUtili = temptask.gWorstCet/temptask.period;
@@ -124,8 +127,10 @@ public class LeastUtiAssignAlg {
 				processorList.get(tempIndex).taskList.add(temptask);
 				processorList.get(tempIndex).proUtili += temptask.taskUtili;
 				for(int m=0;m<processorList.get(temptask.priProcessor).taskList.size();m++){
-					if(processorList.get(temptask.priProcessor).taskList.get(m).taskIndex==temptask.taskIndex)
-						processorList.get(temptask.priProcessor).taskList.get(m).ghoProcessor = tempIndex;
+					if(processorList.get(temptask.priProcessor).taskList.get(m).taskIndex==
+					temptask.taskIndex)
+						processorList.get(temptask.priProcessor).taskList.get(m).ghoProcessor = 
+						tempIndex;
 				}
 				
 				tempmess.append("ghost   task "+ i + " is assigned to prcessor " + tempIndex + " with " + temptask.taskUtili + " and total uti of processor " + tempIndex + " is " + processorList.get(tempIndex).proUtili);

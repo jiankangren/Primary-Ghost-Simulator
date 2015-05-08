@@ -123,14 +123,16 @@ public class TempScheduler {
 		if(eventSignal.eventType==0){
 			if(eventSignal.candidate.primary){
 				    				
-				System.out.println("processor " + priProIndex + " release primary task " + eventSignal.candidate.taskIndex + " at time point " + eventSignal.eventPoint);
+				System.out.println("processor " + priProIndex + " release primary task " +
+				eventSignal.candidate.taskIndex + " at time point " + eventSignal.eventPoint);
 				processorList.get(priProIndex).releaseTask(eventSignal.eventPoint);
 				
 			}
 			
 			else{
 				
-				System.out.println("processor " + ghoProIndex + " release ghost task " + eventSignal.candidate.taskIndex + " at time point " + eventSignal.eventPoint);
+				System.out.println("processor " + ghoProIndex + " release ghost task " + 
+				eventSignal.candidate.taskIndex + " at time point " + eventSignal.eventPoint);
 				processorList.get(ghoProIndex).releaseTask(eventSignal.eventPoint);
 				
 			}
@@ -145,17 +147,21 @@ public class TempScheduler {
 			// a primary task completes
 			if(eventSignal.candidate.primary){    				    				
 				   				
-				System.out.println("processor " + priProIndex + " finish primary task " + eventSignal.candidate.taskIndex + " at time point " + eventSignal.eventPoint);
+				System.out.println("processor " + priProIndex + " finish primary task " + 
+				eventSignal.candidate.taskIndex + " at time point " + eventSignal.eventPoint);
 				processorList.get(priProIndex).finishPrimary(eventSignal.eventPoint);
 				
-				System.out.println("processor " + ghoProIndex + " remove ghost task " + eventSignal.candidate.taskIndex + " at time point " + eventSignal.eventPoint);
-				processorList.get(ghoProIndex).removeGhost(eventSignal.eventPoint,eventSignal.candidate.taskIndex);
+				System.out.println("processor " + ghoProIndex + " remove ghost task " + 
+				eventSignal.candidate.taskIndex + " at time point " + eventSignal.eventPoint);
+				processorList.get(ghoProIndex).removeGhost(eventSignal.eventPoint,eventSignal.
+				candidate.taskIndex);
 			
 			}
 			// a ghost task completes
 			else{
 				
-				System.out.println("processor " + ghoProIndex + " finish ghost task " + eventSignal.candidate.taskIndex + " at time point " + eventSignal.eventPoint);
+				System.out.println("processor " + ghoProIndex + " finish ghost task " + 
+				eventSignal.candidate.taskIndex + " at time point " + eventSignal.eventPoint);
 				processorList.get(ghoProIndex).finishGhost(eventSignal.eventPoint);
 			    
 			}

@@ -72,8 +72,9 @@ public class TempSingleProcessor {
 			
 			//---generate all jobs during simulation time for each primary task----//
 			for(int k=1;k<=(totalTime-candi.phase)/candi.period;k++){
-				TempSingleTask tempCandi = new TempSingleTask(candi.phase,candi.period,candi.relaDeadline,candi.taskIndex,
-						candi.pWorstCet,candi.pwcetMean,candi.pwcetStd,candi.gWorstCet,candi.gwcetMean,candi.gwcetStd,candi.primary);
+				TempSingleTask tempCandi = new TempSingleTask(candi.phase,candi.period,candi.relaDeadline,
+				candi.taskIndex,candi.pWorstCet,candi.pwcetMean,candi.pwcetStd,candi.gWorstCet,
+				candi.gwcetMean,candi.gwcetStd,candi.primary);
 				tempCandi.priProcessor = candi.priProcessor;
 				tempCandi.ghoProcessor = candi.ghoProcessor;
 
@@ -110,7 +111,8 @@ public class TempSingleProcessor {
 		//--to release a ghost task--//
 		if(!retask.primary){
 			
-			remessage.append("Ghost task ").append(retask.taskIndex).append(" releases at point ").append(signalPoint);
+			remessage.append("Ghost task ").append(retask.taskIndex).append(" releases at point ").
+			append(signalPoint);
 			Random r = new Random();              // set the execution time of high critical task randomly as high/low worst case execution time
 			retask.actualExe = r.nextGaussian()*retask.gwcetStd + retask.gwcetMean;
 			if(retask.actualExe>retask.fgWorstCet) retask.actualExe = retask.fgWorstCet;				
@@ -148,27 +150,32 @@ public class TempSingleProcessor {
 					activeone.interPoint = signalPoint;
 					activeone.pWorstCet = activeone.pWorstCet + activeone.endPoint - signalPoint;
 					if(activeone.givenSlack>0){
-						ghoWaitList.get(0).emptySlack = ghoWaitList.get(0).emptySlack + activeone.givenSlack -(signalPoint- activeone.continPoint);
+						ghoWaitList.get(0).emptySlack = ghoWaitList.get(0).emptySlack + 
+						activeone.givenSlack -(signalPoint- activeone.continPoint);
 						activeone.givenSlack = 0;
 					}
 					activeList.remove(0);
 					priWaitList.add(activeone);
 				}
-				remessage.append(" and task ").append(activeone.taskIndex).append(" is interrupted at point ").append(signalPoint);
+				remessage.append(" and task ").append(activeone.taskIndex).append(" is interrupted at point ").
+				append(signalPoint);
 				//recorder.add(remessage.toString());
 				chooseTask(signalPoint);
 			}
 			
 			double newUtili = retask.fgWorstCet/retask.period;
 			double lastUtili = getUtili(retask,newUtili);
-			//System.out.println("The releasing task is a ghost task and the previous utili is " + lastUtili+ " and processor utili is " + proUtili);
+			//System.out.println("The releasing task is a ghost task and the previous utili is " + lastUtili+ 
+			//" and processor utili is " + proUtili);
 			proUtili = proUtili - lastUtili + newUtili;
-			//System.out.println("The releasing task new utili is " + newUtili + " and processor new utili is " + proUtili);
+			//System.out.println("The releasing task new utili is " + newUtili + " and processor new utili is " 
+			//+ proUtili);
 			System.out.println("lasttotal energy is " + proEnergy);
 			double tempEnergy = (curVoltage/vm)*(curVoltage/vm)*pm*(signalPoint-lastPoint);  // energy consumption between two events points
 			lastPoint = signalPoint;
 			proEnergy = proEnergy + tempEnergy;    //update total energy consumption
-			System.out.println("temp energy is " + tempEnergy + ", and current total energy consumption is " + proEnergy + " HERE!!!!!");
+			System.out.println("temp energy is " + tempEnergy + ", and current total energy consumption is " + 
+			proEnergy + " HERE!!!!!");
 			curVoltage = setVoltage();
 			System.out.println("current voltage is set as " + curVoltage);
 		}
@@ -186,9 +193,9 @@ public class TempSingleProcessor {
 			
 			//--if no task is executing, set the releasing low critical task to execute--//
 			if(activeList.size()==0){
-				remessage.append(" and no task is executing now, so the releasing task is executing at point ").append(signalPoint);
-				
-				
+				remessage.append(" and no task is executing now, so the releasing task is executing at point ").
+				append(signalPoint);
+	
 				retask.continPoint = signalPoint;
 				retask.leftTime = retask.pWorstCet;
 				retask.endPoint = retask.continPoint + retask.leftTime;
@@ -219,7 +226,8 @@ public class TempSingleProcessor {
 					priWaitList.add(activeone);
 				}
 				
-				remessage.append(" and task ").append(activeone.taskIndex).append(" is interrupted at point ").append(signalPoint);
+				remessage.append(" and task ").append(activeone.taskIndex).append(" is interrupted at point ")
+				.append(signalPoint);
 				
 				//recorder.add(remessage.toString());
 				
@@ -230,9 +238,11 @@ public class TempSingleProcessor {
 			
 			double newUtili = retask.fpWorstCet/retask.period;
 			double lastUtili = getUtili(retask, newUtili);
-			//System.out.println("The releasing task is a primary task and the previous utili is " + lastUtili + " and processor utili is " + proUtili);
+			//System.out.println("The releasing task is a primary task and the previous utili is " + 
+			lastUtili + " and processor utili is " + proUtili);
 			proUtili = proUtili - lastUtili + newUtili;
-			//System.out.println("The releasing task new utili is " + newUtili + " and processor new utili is " + proUtili);
+			//System.out.println("The releasing task new utili is " + newUtili + " and processor new utili is " 
+			//+ proUtili);
 			System.out.println("lasttotal energy is " + proEnergy);
 			double tempEnergy = (curVoltage/vm)*(curVoltage/vm)*pm*(signalPoint-lastPoint);  // energy consumption between two events points
 			lastPoint = signalPoint;
@@ -263,7 +273,8 @@ public class TempSingleProcessor {
         
 		double lastUtili = getUtili(finishone, newUtili);		
 		
-		//System.out.println("The finishing task is a primary task and the previous utili is " + lastUtili + " and processor utili is " + proUtili);
+		//System.out.println("The finishing task is a primary task and the previous utili is " + lastUtili + 
+		//" and processor utili is " + proUtili);
 
 		proUtili = proUtili - lastUtili + newUtili;
 		
@@ -306,14 +317,16 @@ public class TempSingleProcessor {
 					
 		double newUtili = factor*finishone.fgWorstCet/finishone.period;
 		double lastUtili = getUtili(finishone, newUtili);
-		//System.out.println("The finishing task is a ghost task and the previous utili is " + lastUtili + " and processor utili is " + proUtili);		
+		//System.out.println("The finishing task is a ghost task and the previous utili is " + lastUtili 
+		//+ " and processor utili is " + proUtili);		
 		proUtili = proUtili -lastUtili + newUtili;
 		//System.out.println("The finishing task new utili is " + newUtili + " and processor new utili is " + proUtili);
 		System.out.println("lasttotal energy is " + proEnergy);
 		double tempEnergy = (curVoltage/vm)*(curVoltage/vm)*pm*(signalPoint-lastPoint);  // energy consumption between two events points
 		lastPoint = signalPoint;
 		proEnergy = proEnergy + tempEnergy;    //update total energy consumption
-		System.out.println(" temp energy is "+ tempEnergy + ", and current energy consumption is " + proEnergy + " HERE!!!!!");
+		System.out.println(" temp energy is "+ tempEnergy + ", and current energy consumption is " +
+		proEnergy + " HERE!!!!!");
 		
 		if(activeList.size()==0)  {
 			curVoltage = 0;
@@ -336,7 +349,8 @@ public class TempSingleProcessor {
 		StringBuilder fimessage = new StringBuilder();
 		if(activeList.size()>0&&(activeList.get(0).taskIndex==taskIndex)){
 			TempSingleTask removeone = activeList.get(0);
-			fimessage.append("Ghost task ").append(removeone.taskIndex).append(" is removed at point ").append(signalPoint);					
+			fimessage.append("Ghost task ").append(removeone.taskIndex).append(" is removed at point ")
+			.append(signalPoint);					
 			removeone.remainSlack = removeone.abDeadline-signalPoint;
 			if(removeone.remainSlack>0){
 				endRemainPoint = Math.max(endRemainPoint, removeone.abDeadline);						
@@ -351,7 +365,8 @@ public class TempSingleProcessor {
 				double tempEnergy = (curVoltage/vm)*(curVoltage/vm)*pm*(signalPoint-lastPoint);  // energy consumption between two events points
 				lastPoint = signalPoint;
 				proEnergy = proEnergy + tempEnergy;    //update total energy consumption
-				System.out.println(" temp energy is "+ tempEnergy + ", and current energy consumption is " + proEnergy + " HERE!!!!!");
+				System.out.println(" temp energy is "+ tempEnergy + ", and current energy consumption is "
+				+ proEnergy + " HERE!!!!!");
 				
 				curVoltage = 0;
 				System.out.println("The system is now idle and set the voltage to 0 !!!hahahahahahahahahhahahahahahahahhahahahaha!!!!!!!!!!!");
@@ -373,7 +388,8 @@ public class TempSingleProcessor {
 			
 			if(found){
 				ghoWaitList.remove(i);
-				fimessage.append("Ghost task ").append(taskIndex).append(" is removed at point ").append(signalPoint);				
+				fimessage.append("Ghost task ").append(taskIndex).append(" is removed at point ")
+				.append(signalPoint);				
 			}
 		}
 		
@@ -415,7 +431,8 @@ public class TempSingleProcessor {
 				ttask.pWorstCet = 0;
 			}
 			activeList.add(ttask);
-			tm.append("And choose a primary  task ").append(ttask.taskIndex).append(" to execute at point ").append(signalPoint);
+			tm.append("And choose a primary  task ").append(ttask.taskIndex).append(" to execute at point ")
+			.append(signalPoint);
 			//recorder.add(tm.toString());
 		}
 		
@@ -442,7 +459,8 @@ public class TempSingleProcessor {
 			}
 			
 			activeList.add(ttask);
-			tm.append("And choose ghost task ").append(ttask.taskIndex).append(" to execute at point ").append(signalPoint);
+			tm.append("And choose ghost task ").append(ttask.taskIndex).append(" to execute at point ")
+			.append(signalPoint);
 			//recorder.add(tm.toString());
 		}
 		
@@ -471,13 +489,15 @@ public class TempSingleProcessor {
 			}
 			
 			//---if there is empty slack at this point, choose a primary task to execute----//
-			else if(ghoWaitList.get(0).emptySlack>0 && ghoWaitList.get(0).abDeadline-ghoWaitList.get(0).gWorstCet-signalPoint>0){
+			else if(ghoWaitList.get(0).emptySlack>0 && ghoWaitList.get(0).abDeadline-ghoWaitList.get(0)
+			.gWorstCet-signalPoint>0){
 				
 				tm.append(" And there is empty slack for primary tasks to execute.");
 				TempSingleTask ttask = priWaitList.get(0);
 				priWaitList.remove(0);
 				ttask.continPoint = signalPoint;
-				ghoWaitList.get(0).emptySlack = Math.min(ghoWaitList.get(0).abDeadline-ghoWaitList.get(0).gWorstCet-signalPoint, ghoWaitList.get(0).emptySlack);
+				ghoWaitList.get(0).emptySlack = Math.min(ghoWaitList.get(0).abDeadline-ghoWaitList.get(0)
+				.gWorstCet-signalPoint, ghoWaitList.get(0).emptySlack);
 				ttask.leftTime = Math.min(ttask.pWorstCet, ghoWaitList.get(0).emptySlack);
 				ttask.givenSlack = ttask.leftTime;
 				ttask.endPoint = ttask.continPoint + ttask.leftTime;
@@ -512,7 +532,8 @@ public class TempSingleProcessor {
 				}
 				
 				activeList.add(ttask);
-				tm.append("And choose ghost task ").append(ttask.taskIndex).append(" to execute at point ").append(signalPoint);
+				tm.append("And choose ghost task ").append(ttask.taskIndex).append(" to execute at point ")
+				.append(signalPoint);
 				//recorder.add(tm.toString());
 				
 			}
@@ -561,8 +582,10 @@ public class TempSingleProcessor {
 			}
 			
 			else{
-				if(ghostList.get(k).abDeadline-ghostList.get(k+1).abDeadline+ghostList.get(k+1).isLack+ghostList.get(k+1).gWorstCet>0){
-					ghostList.get(k).isLack= ghostList.get(k).abDeadline-ghostList.get(k+1).abDeadline+ghostList.get(k+1).isLack+ghostList.get(k+1).gWorstCet;
+				if(ghostList.get(k).abDeadline-ghostList.get(k+1).abDeadline+ghostList.get(k+1).isLack
+				+ghostList.get(k+1).gWorstCet>0){
+					ghostList.get(k).isLack= ghostList.get(k).abDeadline-ghostList.get(k+1)
+					.abDeadline+ghostList.get(k+1).isLack+ghostList.get(k+1).gWorstCet;
 				}
 				else{
 					ghostList.get(k).isLack = 0;					
@@ -571,13 +594,16 @@ public class TempSingleProcessor {
 			
 			if(k==0){
 				if(ghostList.get(k).abDeadline - ghostList.get(k).isLack - ghostList.get(k).gWorstCet>0){
-					ghostList.get(k).emptySlack = ghostList.get(k).abDeadline - ghostList.get(k).isLack - ghostList.get(k).gWorstCet;
+					ghostList.get(k).emptySlack = ghostList.get(k).abDeadline - ghostList.get(k).isLack 
+					- ghostList.get(k).gWorstCet;
 				}
 				else ghostList.get(k).emptySlack = 0;
 			}
 			else{
-				if(ghostList.get(k).abDeadline - ghostList.get(k-1).abDeadline - ghostList.get(k).isLack- ghostList.get(k).gWorstCet>0){
-					ghostList.get(k).emptySlack =ghostList.get(k).abDeadline- ghostList.get(k-1).abDeadline - ghostList.get(k).isLack - ghostList.get(k).gWorstCet;
+				if(ghostList.get(k).abDeadline - ghostList.get(k-1).abDeadline - ghostList.get(k).isLack
+				- ghostList.get(k).gWorstCet>0){
+					ghostList.get(k).emptySlack =ghostList.get(k).abDeadline- ghostList.get(k-1)
+					.abDeadline - ghostList.get(k).isLack - ghostList.get(k).gWorstCet;
 				}
 				else ghostList.get(k).emptySlack= 0;
 			}
@@ -667,7 +693,8 @@ public class TempSingleProcessor {
 			
 			minPoint = list.get(0).releasePoint;
 			for(int i=1;i<list.size();i++){
-				if(list.get(i).releasePoint<minPoint||(list.get(i).releasePoint==minPoint&&list.get(i).period<list.get(0).period)){
+				if(list.get(i).releasePoint<minPoint||(list.get(i).releasePoint==minPoint&&list
+				.get(i).period<list.get(0).period)){
 					TempSingleTask temptask = list.get(i);
 					list.remove(i);
 					list.add(0,temptask);

@@ -60,7 +60,9 @@ public class FirstFitAssignAlg {
 					
 					assigned = true;
 					StringBuilder mess1 = new StringBuilder();
-					mess1.append("primary task "+ i + " is assigned to prcessor " + j + " with " + temptask.taskUtili + " and total uti of processor " + j + " is " + processorList.get(j).proUtili);
+					mess1.append("primary task "+ i + " is assigned to prcessor " + j + 
+					" with " + temptask.taskUtili + " and total uti of processor " + j + " is " + 
+					processorList.get(j).proUtili);
 					assignRecorder.add(mess1.toString());
 				}
 				
@@ -88,8 +90,9 @@ public class FirstFitAssignAlg {
 		//----assign each ghost task to processors which does not contain primary task of the ghost task----//
 		for(int i=0;i<primaryTaskset.length;i++){
 			TempSingleTask tempPri = primaryTaskset[i];
-			TempSingleTask temptask = new TempSingleTask(tempPri.phase, tempPri.period, tempPri.relaDeadline, tempPri.taskIndex,
-					tempPri.pWorstCet,tempPri.pwcetMean,tempPri.pwcetStd,tempPri.gWorstCet,tempPri.gwcetMean, tempPri.gwcetStd,tempPri.primary);
+			TempSingleTask temptask = new TempSingleTask(tempPri.phase, tempPri.period, tempPri.relaDeadline, 
+			tempPri.taskIndex,tempPri.pWorstCet,tempPri.pwcetMean,tempPri.pwcetStd,tempPri.gWorstCet,
+			tempPri.gwcetMean, tempPri.gwcetStd,tempPri.primary);
 			temptask.primary = false;
 			temptask.priProcessor = tempPri.priProcessor;
 			int tempindex = temptask.taskIndex;
@@ -121,7 +124,9 @@ public class FirstFitAssignAlg {
 							}
 						}
 						StringBuilder mess1 = new StringBuilder();
-						mess1.append("ghost   task "+ i + " is assigned to prcessor " + j + " with " + temptask.taskUtili + " and total uti of processor " + j + " is " + processorList.get(j).proUtili);
+						mess1.append("ghost   task "+ i + " is assigned to prcessor " + j + 
+						" with " + temptask.taskUtili + " and total uti of processor " + j + " is " 
+						+ processorList.get(j).proUtili);
 						assignRecorder.add(mess1.toString());
 						
 					}
